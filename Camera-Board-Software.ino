@@ -7,7 +7,7 @@
 #define MUX1_2      PD_5
 #define MUX1_SHDN   PD_4
 
-setup()
+void setup()
 {
   Serial.begin(9600);
   
@@ -20,6 +20,7 @@ setup()
   pinMode(MUX1_1, OUTPUT);
   pinMode(MUX1_2, OUTPUT);
   pinMode(MUX1_SHDN, OUTPUT);
+  pinMode(PF_4, OUTPUT);
   
   // Disable active low shutdowns
   digitalWrite(MUX0_SHDN, HIGH);
@@ -34,15 +35,23 @@ setup()
   digitalWrite(MUX1_2, LOW);
 }
 
-loop()
+void loop()
 {
   //test code to switch between camera_0 and camera_1 on output_0
   if (Serial.available())
   {
     char c = Serial.read();
-      if (c = 0)
+      if (c == '0')
+      {
         digitalWrite(MUX0_0, LOW);
-      else if (c = 1)
+        digitalWrite(PF_4, HIGH);
+        Serial.println("Cam 0");
+      }
+      else if (c == '1')
+      {
         digitalWrite(MUX0_0, HIGH);
+        digitalWrite(PF_4, LOW);
+        Serial.println("Cam 1");
+      }
   }
 }
