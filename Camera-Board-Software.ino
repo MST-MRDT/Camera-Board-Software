@@ -52,7 +52,7 @@ void setup()
 void loop()
 {
   uint16_t dataID = 0;
-  uint16_t size = 1;
+  size_t size = 0;
   uint8_t data[6];
   roveComm_GetMsg(&dataID, &size, data);
   
@@ -70,17 +70,20 @@ void loop()
 // Switch the camera that's output on the feed
 void switchfeed(uint8_t output, uint8_t camera) 
 {
+  uint8_t pin2;
+  uint8_t pin1;
+  uint8_t pin0;
   switch (output)
   {
     case 0:
-      uint8_t pin2 = MUX0_2;
-      uint8_t pin1 = MUX0_1;
-      uint8_t pin0 = MUX0_0;
+      pin2 = MUX0_2;
+      pin1 = MUX0_1;
+      pin0 = MUX0_0;
       break;
     case 1:
-      uint8_t pin2 = MUX1_2;
-      uint8_t pin1 = MUX1_1;
-      uint8_t pin0 = MUX1_0;
+      pin2 = MUX1_2;
+      pin1 = MUX1_1;
+      pin0 = MUX1_0;
       break;
     default:
       return;
