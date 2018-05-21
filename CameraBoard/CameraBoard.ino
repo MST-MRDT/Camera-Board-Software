@@ -69,7 +69,7 @@ void loop() {
 
   if(data_id = CAMERA_MUX_CHANNEL)
   {
-    switch(data_value[0]
+    switch(data_value[0])
     {
       case(MUX_CAMERA_1):
         digitalWrite(MUX1_PIN, LOW);
