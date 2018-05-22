@@ -20,7 +20,7 @@ const int OE_PIN   = PG_1;
 //X9 Pins
 //const int MUX1_PIN = PF_2;
 //const int MUX2_PIN = PF_3;
-//const int OE_PIN   = PF_1;
+//const int OE_PIN   = PF_1; //Output Enable
 /*The MUX folows the following truth table (MUX2, MUX1):
  * (0,0): Camera 1
  * (0,1): Camera 2
@@ -37,17 +37,12 @@ RoveCommEthernetUdp RoveComm;
 const uint16_t CAMERA_MUX_CHANNEL = CAMERA_MUX_CHANNEL_1;  //Use this data ID for Camera Board 1 if you have two Camera Boards
 //const uint16_t CAMERA_MUX_CHANNEL = CAMERA_MUX_CHANNEL_2;  //Use this data ID for Camera Board 2 if you have two Camera Boards
 
-//Data Value Definition////////////////////////////////////////////////
-const uint8_t MUX_CAMERA_1 = 1;
-const uint8_t MUX_CAMERA_2 = 2;
-const uint8_t MUX_CAMERA_3 = 3;
-const uint8_t MUX_CAMERA_4 = 4;
-
 //Read Variables/////////
 uint16_t data_id;
 size_t command_data_size;
 uint8_t data_value[2];
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
   RoveComm.begin(ROVE_FIRST_OCTET, ROVE_SECOND_OCTET, ROVE_THIRD_OCTET, CAMERABOARD_FOURTH_OCTET);
   delay(10);
@@ -63,6 +58,7 @@ void setup() {
 
 }
 
+//////////////////////////////////////////////////////////
 void loop() {
   delay(100);
   RoveComm.read(&data_id, &command_data_size, data_value);
