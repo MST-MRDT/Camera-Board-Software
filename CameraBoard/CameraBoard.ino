@@ -50,7 +50,6 @@ void setup() {
   digitalWrite(MUX1_A2_PIN,           LOW);
   digitalWrite(OUTPUT_ENABLE1_OE_PIN, HIGH);
   delay(10);
-
 }
 
 //////////////////////////////////////////////////////////
@@ -61,11 +60,11 @@ void loop() {
   uint8_t data_value;
 
   delay(100);
-  RoveComm.read(&data_id, &command_data_size, data_value);
+  RoveComm.read(&data_id, &command_data_size, &data_value);
 
   if(data_id == CAMERA_MUX_CHANNEL)
   {
-    switch(data_value[0])
+    switch(data_value)
     {
       case(MUX_CAMERA_1):
         digitalWrite(MUX1_A1_PIN, LOW);
