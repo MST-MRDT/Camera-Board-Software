@@ -6,7 +6,7 @@
    Controls 4-camera MUX
 */
 
-#include "RoveWare.h"
+#include "RoveComm.h"
 
 ////////////////////
 //   Board Pins   //
@@ -33,12 +33,12 @@ const int OUTPUT_ENABLE1_OE_PIN = PG_1;
 RoveCommEthernetUdp RoveComm;
 
 //Data ID definition///////////////////////////////////////////////////////////////////////////////////////////////////////////
-const uint16_t CAMERA_MUX_CHANNEL = CAMERA_MUX_CHANNEL_1;  //Use this data ID for Camera Board 1 if you have two Camera Boards
+//const uint16_t CAMERA_MUX_CHANNEL = CAMERA_MUX_CHANNEL_1;  //Use this data ID for Camera Board 1 if you have two Camera Boards
 //const uint16_t CAMERA_MUX_CHANNEL = CAMERA_MUX_CHANNEL_2;  //Use this data ID for Camera Board 2 if you have two Camera Boards
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
-  RoveComm.begin(ROVE_FIRST_OCTET, ROVE_SECOND_OCTET, ROVE_THIRD_OCTET, CAMERABOARD_FOURTH_OCTET);
+//  RoveComm.begin(CAMERABOARD_FOURTH_OCTET);
   delay(10);
   Serial.begin(9600);
   pinMode(MUX1_A1_PIN,           OUTPUT);
@@ -54,10 +54,56 @@ void setup() {
 //////////////////////////////////////////////////////////
 void loop() {
   //Read Variables/////////
-  uint16_t data_id;
-  size_t command_data_size;
-  uint8_t data_value;
+  rovecomm_packet packet;
+  packet = RoveComm.read();
+  if(packet.data_id!=0)
+  {
+    Serial.println(packet.data_id);
+    Serial.println(packet.data_count);
+    for(int i = 0; i<packet.data_count; i++)
+    {
+      Serial.print(packet.data[i]);
+    }
+    switch(packet.data[0])
+    {
+      case 0:
+      {
+        digitalWrite(MUX1_A1_PIN, LOW);
+        digitalWrite(MUX1_A2_PIN, LOW);
+        Serial.println("MUX Camera 1");
+        break;
+      }
+      case 1:
+      {
+        digitalWrite(MUX1_A1_PIN, HIGH);
+        digitalWrite(MUX1_A2_PIN, LOW);
+        Serial.println("MUX Camera 2");
+        break;
+      }
+      case 2:
+      {
+        digitalWrite(MUX1_A1_PIN, LOW);
+        digitalWrite(MUX1_A2_PIN, HIGH);
+        Serial.println("MUX Camera 3");
+        break;
+      }
+      case 3:
+      {
+        digitalWrite(MUX1_A1_PIN, HIGH);
+        digitalWrite(MUX1_A2_PIN, HIGH);
+        Serial.println("MUX Camera 4"); 
+        break;
+      }
+      default:
+        break;
+    }
+  }
+}
 
+
+
+/*
+//////////////////////OLDE CODE///////////////////////////
   delay(100);
   RoveComm.read(&data_id, &command_data_size, &data_value);
 
@@ -66,7 +112,7 @@ void loop() {
   Serial.print("Value: ");
   Serial.println(data_value);
 
-  if (data_id == CAMERA_MUX_CHANNEL)
+  if (data_id == RC_CAMERABOARD_CAMMUX_DATAID)
   {
     switch (data_value)
     {
@@ -94,4 +140,4 @@ void loop() {
         break;
     }
   }
-}
+*/
