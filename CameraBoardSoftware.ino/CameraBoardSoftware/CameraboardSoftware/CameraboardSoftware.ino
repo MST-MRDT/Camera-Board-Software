@@ -1,8 +1,8 @@
 /*
    Camera Board Software
-   Rev 1, 2019
+   Rev 1, 2018
    Used with Camera Board Hardware Rev 1
-   Andrew Van Horn
+   Brian Dahlman
    Controls 4-camera MUX
 */
 
@@ -13,14 +13,14 @@
 ////////////////////
 /////////////////////////////////////////////////
 //X7 Pins
-const int MUX1_A1_PIN           = PK_4;
-const int MUX1_A2_PIN           = PK_5;
-const int OUTPUT_ENABLE1_OE_PIN = PG_1;
+const int MUX_A0                 = PF_1;
+const int MUX_A1                 = PF_2;
+const int OUTPUT_ENABLE1_OE_PIN  = PG_1;
 //X9 Pins
-//const int MUX2_A1_PIN           = PF_2;
-//const int MUX2_A2_PIN           = PF_3;
-//const int OUTPUT_ENABLE2_OE_PIN = PG_1; //Output Enable
-/*The MUX folows the following truth table (MUX2, MUX1):
+const int MUX_B0                 = PF_3;
+const int MUX_B1                 = PG_0;
+const int OUTPUT_ENABLE2_OE_PIN  = PG_1; //Output Enable
+/*The MUX folows the following truth table (MUX_A0, MUX_A1):
    (0,0): Camera 1
    (0,1): Camera 2
    (0,1): Camera 3
@@ -41,12 +41,12 @@ void setup() {
 //  RoveComm.begin(CAMERABOARD_FOURTH_OCTET);
   delay(10);
   Serial.begin(9600);
-  pinMode(MUX1_A1_PIN,           OUTPUT);
-  pinMode(MUX1_A2_PIN,           OUTPUT);
+  pinMode(MUX_A0,           OUTPUT);
+  pinMode(MUX_A1,           OUTPUT);
   pinMode(OUTPUT_ENABLE1_OE_PIN, OUTPUT);
 
-  digitalWrite(MUX1_A1_PIN,           LOW);
-  digitalWrite(MUX1_A2_PIN,           LOW);
+  digitalWrite(MUX_A0,           LOW);
+  digitalWrite(MUX_A1,           LOW);
   digitalWrite(OUTPUT_ENABLE1_OE_PIN, HIGH);
   delay(10);
 }
@@ -54,6 +54,7 @@ void setup() {
 //////////////////////////////////////////////////////////
 void loop() {
   //Read Variables/////////
+  delay(100);
   rovecomm_packet packet;
   packet = RoveComm.read();
   if(packet.data_id!=0)
@@ -68,29 +69,29 @@ void loop() {
     {
       case 0:
       {
-        digitalWrite(MUX1_A1_PIN, LOW);
-        digitalWrite(MUX1_A2_PIN, LOW);
+        digitalWrite(MUX_A0, LOW);
+        digitalWrite(MUX_A1, LOW);
         Serial.println("MUX Camera 1");
         break;
       }
       case 1:
       {
-        digitalWrite(MUX1_A1_PIN, HIGH);
-        digitalWrite(MUX1_A2_PIN, LOW);
+        digitalWrite(MUX_A0, HIGH);
+        digitalWrite(MUX_A1, LOW);
         Serial.println("MUX Camera 2");
         break;
       }
       case 2:
       {
-        digitalWrite(MUX1_A1_PIN, LOW);
-        digitalWrite(MUX1_A2_PIN, HIGH);
+        digitalWrite(MUX_A0, LOW);
+        digitalWrite(MUX_A1, HIGH);
         Serial.println("MUX Camera 3");
         break;
       }
       case 3:
       {
-        digitalWrite(MUX1_A1_PIN, HIGH);
-        digitalWrite(MUX1_A2_PIN, HIGH);
+        digitalWrite(MUX_A0, HIGH);
+        digitalWrite(MUX_A1, HIGH);
         Serial.println("MUX Camera 4"); 
         break;
       }
@@ -103,7 +104,7 @@ void loop() {
 
 
 /*
-//////////////////////OLDE CODE///////////////////////////
+//////////////////////OLD CODE///////////////////////////
   delay(100);
   RoveComm.read(&data_id, &command_data_size, &data_value);
 
@@ -117,23 +118,23 @@ void loop() {
     switch (data_value)
     {
       case (MUX_CAMERA_1):
-        digitalWrite(MUX1_A1_PIN, LOW);
-        digitalWrite(MUX1_A2_PIN, LOW);
+        digitalWrite(MUX_A0, LOW);
+        digitalWrite(MUX_A1, LOW);
         Serial.println("MUX Camera 1");
         break;
       case (MUX_CAMERA_2):
-        digitalWrite(MUX1_A1_PIN, HIGH);
-        digitalWrite(MUX1_A2_PIN, LOW);
+        digitalWrite(MUX_A0, HIGH);
+        digitalWrite(MUX_A1, LOW);
         Serial.println("MUX Camera 2");
         break;
       case (MUX_CAMERA_3):
-        digitalWrite(MUX1_A1_PIN, LOW);
-        digitalWrite(MUX1_A2_PIN, HIGH);
+        digitalWrite(MUX_A0, LOW);
+        digitalWrite(MUX_A1, HIGH);
         Serial.println("MUX Camera 3");
         break;
       case (MUX_CAMERA_4):
-        digitalWrite(MUX1_A1_PIN, HIGH);
-        digitalWrite(MUX1_A2_PIN, HIGH);
+        digitalWrite(MUX_A0, HIGH);
+        digitalWrite(MUX_A1, HIGH);
         Serial.println("MUX Camera 4");
         break;
       default:
