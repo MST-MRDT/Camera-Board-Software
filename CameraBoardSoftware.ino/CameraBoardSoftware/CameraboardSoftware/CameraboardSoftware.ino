@@ -15,11 +15,11 @@
 //X7 Pins
 const int MUX_A0                 = PF_1;
 const int MUX_A1                 = PF_2;
-const int OUTPUT_ENABLE1_OE_PIN  = PG_1;
-//X9 Pins
+const int MUXA_SHDN              = PP_2;
+
 const int MUX_B0                 = PF_3;
 const int MUX_B1                 = PG_0;
-const int OUTPUT_ENABLE2_OE_PIN  = PG_1; //Output Enable
+const int MUXB_SHDN              = PL_3; 
 /*The MUX folows the following truth table (MUX_A0, MUX_A1):
    (0,0): Camera 1
    (0,1): Camera 2
@@ -43,17 +43,17 @@ void setup() {
   Serial.begin(9600);
   pinMode(MUX_A0,           OUTPUT);
   pinMode(MUX_A1,           OUTPUT);
-  pinMode(OUTPUT_ENABLE1_OE_PIN, OUTPUT);
+ // pinMode(OUTPUT_ENABLE1_OE_PIN, OUTPUT);
 
   digitalWrite(MUX_A0,           LOW);
   digitalWrite(MUX_A1,           LOW);
-  digitalWrite(OUTPUT_ENABLE1_OE_PIN, HIGH);
+ // digitalWrite(OUTPUT_ENABLE1_OE_PIN, HIGH);
   delay(10);
 }
 
 //////////////////////////////////////////////////////////
 void loop() {
-  //Read Variables/////////
+//////Read Variables/////////
   delay(100);
   rovecomm_packet packet;
   packet = RoveComm.read();
