@@ -43,11 +43,20 @@ void setup() {
   Serial.begin(9600);
   pinMode(MUX_A0,           OUTPUT);
   pinMode(MUX_A1,           OUTPUT);
+  pinMode(MUX_B0,           OUTPUT);
+  pinMode(MUX_B1,           OUTPUT);
+  pinMode(MUXA_SHDN,        OUTPUT);
+  pinMode(MUXB_SHDN,        OUTPUT);
  // pinMode(OUTPUT_ENABLE1_OE_PIN, OUTPUT);
 
   digitalWrite(MUX_A0,           LOW);
   digitalWrite(MUX_A1,           LOW);
+  digitalWrite(MUX_A0,           LOW);
+  digitalWrite(MUX_A1,           LOW);
+  digitalWrite(MUXA_SHDN,        HIGH); //Active low
+  digitalWrite(MUXB_SHDN,        HIGH);
  // digitalWrite(OUTPUT_ENABLE1_OE_PIN, HIGH);
+ 
   delay(10);
 }
 
